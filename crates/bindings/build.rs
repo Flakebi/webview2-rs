@@ -355,7 +355,8 @@ mod webview2_bindgen {
         let dest = read_bindings(&dest_path)?;
 
         if source != dest {
-            fs::copy(&source_path, &dest_path)?;
+            eprintln!("Copying {source_path:?} -> {dest_path:?}");
+            // fs::copy(&source_path, &dest_path)?;
             Ok(true)
         } else {
             Ok(false)
@@ -405,13 +406,16 @@ mod webview2_bindgen {
             #[cfg_attr(target_env = "msvc", link(name = "WebView2LoaderStatic", kind = "static"))]
             #[cfg_attr(not(target_env = "msvc"), link(name = "WebView2Loader"))]
         "#;
-        Ok(pattern.replace_all(&bindings, replacement).to_string())
+        let pattern2 = Regex::new(r#"#\s*!\s*\[[^\]]*\]"#)?;
+        let bindings = pattern.replace_all(&bindings, replacement);
+        let bindings = pattern2.replace_all(&bindings, "");
+        Ok(bindings.replace(r#"extern"system""#, r#"extern "system""#))
     }
 
     fn format_bindings(source_path: &Path) -> super::Result<()> {
-        let mut cmd = ::std::process::Command::new("rustfmt");
+        /*let mut cmd = ::std::process::Command::new("rustfmt");
         cmd.arg(&source_path);
-        cmd.output()?;
+        cmd.output()?;*/
         Ok(())
     }
 

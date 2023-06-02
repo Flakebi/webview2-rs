@@ -1,4 +1,7 @@
-#[repr(transparent)]
+
+include!(concat!(env!("OUT_DIR"), "/mod.rs"));
+
+/*#[repr(transparent)]
 #[derive(::core::cmp::PartialEq, ::core::cmp::Eq)]
 pub struct COREWEBVIEW2_BOUNDS_MODE(pub i32);
 pub const COREWEBVIEW2_BOUNDS_MODE_USE_RAW_PIXELS: COREWEBVIEW2_BOUNDS_MODE =
@@ -67952,4 +67955,4 @@ impl ICoreWebView2_9_Vtbl {
             || iid == &<ICoreWebView2_7 as ::windows::core::Interface>::IID
             || iid == &<ICoreWebView2_8 as ::windows::core::Interface>::IID
     }
-}
+}*/
